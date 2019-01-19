@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import json
 from creds import *
 from passlib.hash import sha256_crypt
+import datetime
 
 user, password = creds()
 
@@ -13,6 +14,21 @@ uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec201
 client = MongoClient(uri, connectTimeoutMS=30000)
 db = client.get_database("ryeoec2019")
 hospital = db.hospital
+# password = sha256_crypt.encrypt("jimmy")
+# gender="male"
+# pnumber="109238120"
+# symptoms="cough"
+# post_data = {
+#     		'name': password,
+#     		'gender': gender,
+#     		'pnumber': pnumber,
+#     		'password': password,
+#     		'symptoms': symptoms,
+#     		'date': datetime.datetime.utcnow()
+#     	}
+# result = hospital.insert_one(post_data)
+# print(hospital.find_one())
+
 
 app = Flask(__name__)
 CORS(app)
@@ -20,19 +36,37 @@ CORS(app)
 @app.route('/register', methods=['GET','POST'])
 def register():
 	form = RegisterForm(request.form)
-	if request.method == 'POST':
+	if request.method == 'POST' and hospital.find_one({"name": form.name.data}) == None:
 		name = form.name.data
-		email = form.email.data
-		username = form.username.data
+		gender = form.gender.data
+		pnumber = form.phonenumber.data
 		password = sha256_crypt.encrypt(str(form.password.data))
-		# push to db
-		return True
-	return False
+		symptoms = form.symptoms.data
+		post_data = {
+    		'name': name,
+    		'gender': gender,
+    		'pnumber': pnumber,
+    		'password': password,
+    		'symptoms': symptoms,
+    		'date': datetime.datetime.utcnow()
+    	}
+		result = hospital.insert_one(post_data)
+		hopital.find_one()
+		return name
+	return "An account already exists"
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-	form = RegisterForm(reque)
+	form = RegisterForm(request.form)
+	if request.method == 'POST':
+		name = form.name.data
+		password = sha256_crypt.encrypt(str(form.password.data))
+		if hospital.find_one({"name": form.name.data}) != None:
+			user = hospital.find_one({"name": form.name.data}):
 
+@app.route('/logout'):
+	 
 
 if __name__ == "__main__":
 	app.run()
