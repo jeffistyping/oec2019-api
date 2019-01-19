@@ -5,9 +5,10 @@ from pymongo import MongoClient
 import json
 from passlib.hash import sha256_crypt
 import datetime
+import os
 
-user = ENV[URI_USER]
-password = ENV[URI_PASS]
+user = os.environ['URI_USER']
+password = os.environ['URI_PASS']
 
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 
