@@ -7,8 +7,8 @@ from passlib.hash import sha256_crypt
 import datetime
 import os
 
-user = os.environ['URI_USER']
-password = os.environ['URI_PASS']
+user = os.environ.get('URI_USER')
+password = os.environ.get('URI_PASS')
 
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 
