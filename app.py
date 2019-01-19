@@ -8,14 +8,6 @@ import datetime
 import os
 from twilio.rest import Client
 
-
-client.messages \
-	                .create(
-	                     body='please work',
-	                     from_= text_from,
-	                     to='14169027388'
-	                 )
-
 # MediHelper API
 '''
 The Medihelper API allows users to report medical checkup data to the database 
@@ -58,8 +50,9 @@ def create_doctor():
 def text():
 	text_to = request.args.get('to')
 	message = request.args.get('message')
-	client.messages.create(body=message,from_= text_from,to=text_to)
+	Client.messages.create(body=message,from_= text_from,to=text_to)
 	return "Sent"
+
 
 @app.route('/send', methods=['GET','POST'])
 def send():
