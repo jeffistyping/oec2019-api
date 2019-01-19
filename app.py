@@ -48,8 +48,6 @@ def create_doctor():
 def text():
 	text_to = request.args.get('to')
 	message = request.args.get('message')
-	from twilio.rest import Client
-
 	account_sid = os.environ.get('TWIL_SID')	
 	auth_token = os.environ.get('TWIL_TOKEN')
 	text_from = os.environ.get('FROM')
@@ -61,7 +59,6 @@ def text():
 	                     from_=text_from,
 	                     to='14169027388'
 	                 )
-	# Client.messages.create(body=message,from_= text_from,to=text_to)
 	return "Sent"
 
 
