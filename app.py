@@ -105,7 +105,7 @@ def login():
 					doctors.append(patient['doctor'])
 					apptdates.append(patient['apptdate'])
 				return jsonify({"names": patient_names, "genders": genders, "phonenumbers": pnumbers, "symptoms": symptoms, "doctors": doctors, "apptdates": apptdates})
-	return '<template><div class="container"><br><div class="row"><div class="col-12 text-center title">MedAssist</div></div><hr><div style="width:1000px; margin: 0 auto;"><router-link to="/patient" tag="button">Login</router-link></div></div></template><script>export default {name: "PatientList"}</script><style scoped>.title{font-size: 2em;font-weight: bold;}</style>'
+	return "Failed"
 
 if __name__ == "__main__":
 	app.run()
