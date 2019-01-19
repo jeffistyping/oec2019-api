@@ -85,9 +85,10 @@ def login():
 		password = request.form['password']
 		if hospital.find_one({"docname": name}) != None:
 			try_login = hospital.find_one({"docname": name})
-			if sha256_crypt.verify("password", try_login['password']):
+			if sha256_crypt.verify(password, try_login['password']):
 				return "success"		
 	return "fail"
+
 
 
 				
