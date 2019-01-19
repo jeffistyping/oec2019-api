@@ -89,7 +89,7 @@ def login():
 				output = []
 				for patient in hospital.find({"doctor": name }):
 					output.append(patient)
-					return json.dumps(output)
+				return json.dumps(output)
 	return "fail"
 
 
