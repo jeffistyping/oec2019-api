@@ -44,7 +44,7 @@ def create_doctor():
 	return "Invalid"
 
 # .../text?to=16479998765&message="please%20work"
-@app.route('/text'):
+@app.route('/text')
 def text():
 	text_to = request.args.get('to')
 	message = request.args.get('message')
