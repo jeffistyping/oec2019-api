@@ -7,8 +7,12 @@ from passlib.hash import sha256_crypt
 import datetime
 import os
 
-user = os.environ.get('URI_USER')
-password = os.environ.get('URI_PASS')
+# user = os.environ.get('URI_USER')
+# password = os.environ.get('URI_PASS')
+
+user = "jadmin"
+password = "ryerson2019"
+
 
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 
@@ -57,14 +61,14 @@ def register():
 	return "An account already exists"
 
 
-@app.route('/login', methods=['GET','POST'])
-def login():
-	form = RegisterForm(request.form)
-	if request.method == 'POST':
-		name = form.name.data
-		password = sha256_crypt.encrypt(str(form.password.data))
-		if hospital.find_one({"name": form.name.data}) != None:
-			try_login = hospital.find_one({"name": form.name.data})
+# @app.route('/login', methods=['GET','POST'])
+# def login():
+# 	form = RegisterForm(request.form)
+# 	if request.method == 'POST':
+# 		name = form.name.data
+# 		password = sha256_crypt.encrypt(str(form.password.data))
+# 		if hospital.find_one({"name": form.name.data}) != None:
+# 			try_login = hospital.find_one({"name": form.name.data})
 
 
 
