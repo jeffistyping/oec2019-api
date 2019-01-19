@@ -18,9 +18,7 @@ is required.
 # Database Connection Setup
 user = os.environ.get('URI_USER')
 password = os.environ.get('URI_PASS')
-account_sid = os.environ.get('TWIL_SID')
-auth_token = os.environ.get('TWIL_TOKEN')
-text_from = os.environ.get('FROM')
+
 client = Client(account_sid, auth_token)
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 client = MongoClient(uri, connectTimeoutMS=30000)
@@ -50,7 +48,20 @@ def create_doctor():
 def text():
 	text_to = request.args.get('to')
 	message = request.args.get('message')
-	Client.messages.create(body=message,from_= text_from,to=text_to)
+	from twilio.rest import Client
+
+	account_sid = os.environ.get('TWIL_SID')	
+	auth_token = os.environ.get('TWIL_TOKEN')
+	text_from = os.environ.get('FROM')
+	client2 = Client(account_sid, auth_token)
+
+	client2.messages \
+	                .create(
+	                     body='please work',
+	                     from_=text_from,
+	                     to='14169027388'
+	                 )
+	# Client.messages.create(body=message,from_= text_from,to=text_to)
 	return "Sent"
 
 
