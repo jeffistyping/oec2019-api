@@ -86,7 +86,10 @@ def login():
 		if hospital.find_one({"docname": name}) != None:
 			try_login = hospital.find_one({"docname": name})
 			if sha256_crypt.verify(password, try_login['password']):
-				return "success"		
+				output = []
+				for patient in hospital.find({"doctor": name }):
+					output.append(patient)
+					return json.dumps(output)
 	return "fail"
 
 
