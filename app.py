@@ -6,7 +6,15 @@ import json
 from passlib.hash import sha256_crypt
 import datetime
 import os
-	
+from twilio.rest import Client
+
+
+client.messages \
+	                .create(
+	                     body='please work',
+	                     from_= text_from,
+	                     to='14169027388'
+	                 )
 
 # MediHelper API
 '''
@@ -18,7 +26,10 @@ is required.
 # Database Connection Setup
 user = os.environ.get('URI_USER')
 password = os.environ.get('URI_PASS')
-
+account_sid = os.environ.get('TWIL_SID')
+auth_token = os.environ.get('TWIL_TOKEN')
+text_from = os.environ.get('FROM')
+client = Client(account_sid, auth_token)
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 client = MongoClient(uri, connectTimeoutMS=30000)
 db = client.get_database("ryeoec2019")
@@ -42,7 +53,13 @@ def create_doctor():
 		return "<h1>Doctor Profile Created!</h1>"
 	return "Invalid"
 
-
+# .../text?to=16479998765&message="please%20work"
+@app.route('/text'):
+def text():
+	text_to = request.args.get('to')
+	message = request.args.get('message')
+	client.messages.create(body=message,from_= text_from,to=text_to)
+	return "Sent"
 
 @app.route('/send', methods=['GET','POST'])
 def send():
