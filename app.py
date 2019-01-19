@@ -87,11 +87,21 @@ def login():
 		if hospital.find_one({"docname": name}) != None:
 			try_login = hospital.find_one({"docname": name})
 			if sha256_crypt.verify(password, try_login['password']):
-				output = []
+				patient_names = []
+				genders = []
+				pnumbers = []
+				symptoms = []
+				doctors = []
+				apptdates = []
 				for patient in hospital.find({"doctor": name }):
-					output.append(patient)
-				return json.dumps(str(output))	
-	return "fail"
+					patient_names.append(patient['name'])
+					genders.append(patient['gender'])
+					pnumbers.append(patient['pnumber'])
+					symptoms.append(patient['symptoms'])
+					doctors.append(patient['doctor'])
+					apptdates.append(patient['apptdate'])
+				return jsonify({"names": patient_names, "genders": genders, "phonenumbers": pnumbers, "symptoms": symptoms, "doctors": doctors, "apptdates": apptdates})
+	return jsonify({})
 
 if __name__ == "__main__":
 	app.run()
