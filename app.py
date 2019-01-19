@@ -18,6 +18,7 @@ is required.
 # Database Connection Setup
 user = os.environ.get('URI_USER')
 password = os.environ.get('URI_PASS')
+
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 client = MongoClient(uri, connectTimeoutMS=30000)
 db = client.get_database("ryeoec2019")
@@ -89,7 +90,7 @@ def login():
 				output = []
 				for patient in hospital.find({"doctor": name }):
 					output.append(patient)
-				return str(output)
+				return json.dumps(str(output))	
 	return "fail"
 
 if __name__ == "__main__":
