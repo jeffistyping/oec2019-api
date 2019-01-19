@@ -3,11 +3,11 @@ from flask_cors import CORS
 import pymongo
 from pymongo import MongoClient
 import json
-from creds import *
 from passlib.hash import sha256_crypt
 import datetime
 
-user, password = creds()
+user = ENV[URI_USER]
+password = ENV[URI_PASS]
 
 uri = 'mongodb://' + user + ':' + password + '@ds161104.mlab.com:61104/ryeoec2019'
 
@@ -19,7 +19,7 @@ hospital = db.hospital
 # pnumber="109238120"
 # symptoms="cough"
 # post_data = {
-#     		'name': password,
+ 	#     		'name': password,
 #     		'gender': gender,
 #     		'pnumber': pnumber,
 #     		'password': password,
@@ -63,10 +63,9 @@ def login():
 		name = form.name.data
 		password = sha256_crypt.encrypt(str(form.password.data))
 		if hospital.find_one({"name": form.name.data}) != None:
-			user = hospital.find_one({"name": form.name.data}):
+			try_login = hospital.find_one({"name": form.name.data})
 
-@app.route('/logout'):
-	 
+
 
 if __name__ == "__main__":
 	app.run()
