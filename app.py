@@ -29,14 +29,14 @@ CORS(app)
 
 @app.route('/send', methods=['GET','POST'])
 def send():
-	form = RegisterForm(request.form)
-	if request.method == 'POST' and hospital.find_one({"name": form.name.data}) == None:
+	if request.method == 'POST':
 		name = request.form['name']
 		gender = request.form['gender']
 		pnumber = request.form['phonenumber']
 		symptoms = request.form['symptoms']
 		doctor = request.form['doctor']
 		apptdate = request.form['apptdate']
+		print(name)
 		post_data = {
     		'name': name,
     		'gender': gender,
