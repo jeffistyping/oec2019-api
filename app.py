@@ -6,7 +6,7 @@ import json
 from passlib.hash import sha256_crypt
 import datetime
 import os
-
+	
 
 # MediHelper API
 '''
@@ -27,6 +27,22 @@ hospital = db.hospital
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/create_doctor', methods=['GET','POST'])
+def create_doctor():
+	if request.method == 'POST':
+		name = request.form['name']
+		password = request.form['password']
+		post_data = {
+    		'docname': name,
+    		'password': sha256_crypt.hash(password),
+    		'date': datetime.datetime.utcnow()
+    	}
+		result = hospital.insert_one(post_data)
+		return "<h1>Doctor Profile Created!</h1>"
+	return "Invalid"
+
+
+
 @app.route('/send', methods=['GET','POST'])
 def send():
 	if request.method == 'POST':
@@ -36,7 +52,6 @@ def send():
 		symptoms = request.form['symptoms']
 		doctor = request.form['doctor']
 		apptdate = request.form['apptdate']
-		print(name)
 		post_data = {
     		'name': name,
     		'gender': gender,
@@ -47,23 +62,35 @@ def send():
     		'date': datetime.datetime.utcnow()
     	}
 		result = hospital.insert_one(post_data)
-		return name
-	return "An account already exists"
+		return "yes"
+	return "no"
 
 @app.route("/api")
 def api():
-	return "/send - POST client data <br/> /login - Doctors Login"
+	return "/send - POST client data <br/> /login - POST Doctors Login"
 
-# @app.route('/login', methods=['GET','POST'])
-# def login():
-# 	form = RegisterForm(request.form)
-# 	if request.method == 'POST':
-# 		name = form.name.data
-# 		password = sha256_crypt.encrypt(str(form.password.data))
-# 		if hospital.find_one({"name": form.name.data}) != None:
-# 			try_login = hospital.find_one({"name": form.name.data})
-# 			if try_login['password'] == password:
-# 				session
+
+# Doctors must be added to the database via IT Services
+# Contact IT for new doctor onboarding
+# DOCTOR MODEL
+'''{
+	docname: "doctor's name"
+	password: "password"
+}
+'''
+@app.route('/login', methods=['GET','POST'])
+def login():
+	if request.method == 'POST':
+		name = request.form['name']
+		password = request.form['password']
+		if hospital.find_one({"docname": name}) != None:
+			try_login = hospital.find_one({"docname": name})
+			if sha256_crypt.verify("password", try_login['password']):
+				return "success"		
+	return "fail"
+
+
+				
 
 if __name__ == "__main__":
 	app.run()
